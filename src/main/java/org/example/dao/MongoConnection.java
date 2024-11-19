@@ -3,7 +3,6 @@ package org.example.dao;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoException;
 import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -18,11 +17,11 @@ public class MongoConnection {
                 .version(ServerApiVersion.V1)
                 .build();
 
-        MongoClientSettings settings = MongoClientSettings.builder()
+        assert connectionString != null;
+
+        return MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connectionString))
                 .serverApi(serverApi)
                 .build();
-
-        return settings;
     }
 }
