@@ -9,19 +9,25 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.example.dao.MongoConnection;
 
-public class FindOne {
+public class FindAndModify {
     public static void main(String[] args) {
         MongoConnection conn = new MongoConnection();
         MongoClientSettings settings= conn.getClientSettings();
 
         try (MongoClient client = MongoClients.create(settings)) {
             MongoDatabase database = client.getDatabase("sample_mflix");
-            MongoCollection<Document> collection = database.getCollection("comments");
-            Document document = collection.find().first();
-            System.out.println("First document: " + document);
+            MongoCollection<Document> collection = database.getCollection("movies");
+
+            Document query = new Document("genres", "Drama")
+                    .append("directors", "Winchell Smith");
+
+            Document updateOperation = new Document("$inc", new Document("year", 1));
+
+            long modifiedCount = collection.updateMany(query, updateOperation).getModifiedCount();
+
+            System.out.println("Updated year for " + modifiedCount + " movies with genre 'Drama' and director 'Winchell Smith'!");
         } catch (MongoException e) {
             e.printStackTrace();
         }
     }
 }
-

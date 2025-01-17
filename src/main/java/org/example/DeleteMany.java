@@ -9,7 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.example.dao.MongoConnection;
 
-public class FindOne {
+public class DeleteMany {
     public static void main(String[] args) {
         MongoConnection conn = new MongoConnection();
         MongoClientSettings settings= conn.getClientSettings();
@@ -17,11 +17,14 @@ public class FindOne {
         try (MongoClient client = MongoClients.create(settings)) {
             MongoDatabase database = client.getDatabase("sample_mflix");
             MongoCollection<Document> collection = database.getCollection("comments");
-            Document document = collection.find().first();
-            System.out.println("First document: " + document);
+
+            Document query = new Document("name", "Yolanda Owen");
+
+            long deletedCount = collection.deleteMany(query).getDeletedCount();
+
+            System.out.println("Deleted " + deletedCount + " comments by Yolanda Owen!");
         } catch (MongoException e) {
             e.printStackTrace();
         }
     }
 }
-
