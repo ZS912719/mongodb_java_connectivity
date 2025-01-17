@@ -20,7 +20,7 @@ public class ReplaceOne {
 
             Document query = new Document("_id", "5a9427648b0beebeb694499");
 
-            Document newDocument = new Document("_id", "5a9427648b0beebeb694499") // 保持相同 _id
+            Document newDocument = new Document("_id", "5a9427648b0beebeb694499")
                     .append("name", "New User")
                     .append("email", "new_user@fakeemail.com")
                     .append("movie_id", "573a1390f29313caabcd4ebf")
